@@ -1,104 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import CurrentCrypto from '../CurrentCrypto/CurrentCrypto';
+import React, { useState } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-const CryptoConverter = () => {
-  const [bitcoin, setBitcoin] = useState(null);
-  const [bitcoinInterval, setBitcoinInterval] = useState(null)
-  const [ethereum, setEthereum] = useState(null)
-  const [ethereumIntevral, setEthereumInterval] = useState(null)
+const CryptoConverter = ({ coin, coinInterval }) => {
+  const [userAmount, setUserAmount] = useState(null);
 
-  useEffect(() => {
-    fetchBitcoinCurrent();
-    fetchEthereumCurrent();
-    fetchBitcoinInterval();
-    fetchEthereumInterval();
-  }, [])
-
-  async function fetchBitcoinCurrent() {
-    function getUsd() {
-      return axios.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
-    }
-
-    function getEth() {
-      return axios.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eth');
-    }
-    try {
-      Promise.all([getUsd(), getEth()])
-        .then(function (results) {
-          const usd = results[0].data;
-          const eth = results[1].data;
-          setBitcoin({
-            name: "Bitcoin",
-            coin: "btc",
-            toUSD: usd.bitcoin.usd,
-            toAnotherCoin: eth.bitcoin.eth
-          })
-        });
-
-    } catch (err) {
-      console.log(err)
-    }
+  function getDate(prop) {
+    const fullDate = new Date(prop * 1)
+    const day = fullDate.getDate()
+    const month = fullDate.getMonth() + 1
+    return `${day}/${month}`
   }
 
-  async function fetchEthereumCurrent() {
-    function getUsd() {
-      return axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+  const graphData = coinInterval?.map(el => {
+    return {
+      date: getDate(el[0]), coin: el[1].toFixed(2)
     }
-
-    function getBtc() {
-      return axios.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=btc');
-    }
-
-    try {
-      Promise.all([getUsd(), getBtc()])
-        .then(function (results) {
-          const usd = results[0].data;
-          const eth = results[1].data;
-          setEthereum({
-            name: "Ethereum",
-            coin: "eth",
-            toUSD: usd.ethereum.usd,
-            toAnotherCoin: eth.ethereum.btc
-          })
-        });
-
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  async function fetchBitcoinInterval() {
-    try {
-      const response = await axios.get('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=14&interval=daily')
-
-      const data = response.data.prices
-      setBitcoinInterval(data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  async function fetchEthereumInterval() {
-    try {
-      const response = await axios.get('https://api.coingecko.com/api/v3/coins/ethereum/market_chart?vs_currency=usd&days=14&interval=daily')
-
-      const data = response.data.prices
-      setEthereumInterval(data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  // console.log(bitcoin, "bitcoin")
-  // console.log(ethereum, "ethereum")
-  // console.log(bitcoinInterval, "bitcoinInteral")
-  // console.log(ethereumIntevral, "ethereumInteral")
+  })
 
   return (
     <>
-      <CurrentCrypto coin={bitcoin} coinInterval={bitcoinInterval} />
-      <CurrentCrypto coin={ethereum} coinInterval={ethereumIntevral} />
+      {coin ? (
+        <>
+          <div>
+            <h2>{`${coin.name} = ${coin.toUSD} USD = ${coin.toAnotherCoin} ${coin.coin === "btc" ? "ETH" : "BTC"}`}</h2>
+          </div>
+          <div>
+            <label>
+              {coin.name}
+              <input type="number" value={userAmount} onChange={e => setUserAmount(e.target.value)}></input>
+            </label>
+            <span> = {userAmount * coin.toUSD} USD </span>
+            <span>= {userAmount * coin.toAnotherCoin} {coin.coin === "btc" ? "ETH" : "BTC"}</span>
+          </div>
+          <LineChart width={730} height={250} data={graphData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="coin" name={coin.coin} stroke="#8884d8" dot={{ stroke: 'black  ', strokeWidth: 2 }} activeDot={{ r: 6 }} />
+          </LineChart>
+        </>
+      ) : "Данные загружаются"
+      }
     </>
   );
 };
