@@ -26,7 +26,8 @@
 }
 
 .wallet__coins {
-  margin-right: 250px;
+  width: 270px;
+  margin-right: 240px;
 }
 
 .wallet__coins p {

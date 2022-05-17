@@ -17,8 +17,10 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
   function submitBuyCoin() {
     if (coinСhoice === "Bitcoin") {
       setUserBtc(userBtc + coinToBuy)
+      setCoinToBuy(1)
     } else if (coinСhoice === "Ethereum") {
       setUserEth(userEth + coinToBuy)
+      setCoinToBuy(1)
     }
   }
 
@@ -26,11 +28,13 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
     if (coinСhoiceToSell === "Bitcoin") {
       if (userBtc >= coinToSell) {
         setUserBtc(userBtc - coinToSell)
+        setCoinToSell(1)
       } else alert("Недостаточно криптовалюты для продажи")
     }
     if (coinСhoiceToSell === "Ethereum") {
       if (userEth >= coinToSell) {
         setUserEth(userEth - coinToSell)
+        setCoinToSell(1)
       } else alert("Недостаточно криптовалюты для продажи")
     }
   }
@@ -82,7 +86,7 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
         </div>
         <label className='tradeCoin__label'>
           Количество
-          <input className='tradeCoin__input' type="number" min="1" value={coinToBuy} onChange={e => setCoinToBuy(+(e.target.value))} ></input><span className='tradeCoin__totalPrice'> = {totalPrice.toFixed(2)} USD</span>
+          <input className='tradeCoin__input' type="number" min="0.1" value={coinToBuy} onChange={e => setCoinToBuy(+(e.target.value))} ></input><span className='tradeCoin__totalPrice'> = {totalPrice.toFixed(2)} USD</span>
         </label>
         <button className='tradeCoin__submit' onClick={submitBuyCoin}>Купить</button>
       </div>
@@ -100,7 +104,7 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
         </div>
         <label className='tradeCoin__label'>
           Количество
-          <input className='tradeCoin__input' type="number" min="1" value={coinToSell} onChange={e => setCoinToSell(+(e.target.value))} ></input><span className='tradeCoin__totalPrice'> = {totalSellPrice.toFixed(2)} USD</span>
+          <input className='tradeCoin__input' type="number" min="0.1" value={coinToSell} onChange={e => setCoinToSell(+(e.target.value))} ></input><span className='tradeCoin__totalPrice'> = {totalSellPrice.toFixed(2)} USD</span>
         </label>
         <button className='tradeCoin__submit' onClick={submitSellCoin}>Продать</button>
       </div>

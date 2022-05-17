@@ -1,3 +1,5 @@
+@import "../../cssVars/cssVars";
+
 %h2 {
   font-size: 25px;
   font-weight: 600;
@@ -22,7 +24,8 @@
 }
 
 .wallet__coins {
-  margin-right: 250px;
+  width: 270px;
+  margin-right: 240px;
 
     h2 {
       @extend %h2;
@@ -47,7 +50,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  background-color: #d4d2f3;
+  background-color: $backgroundColor;
   border: 1px solid white;
   border-radius: 8px;
 
@@ -98,7 +101,6 @@
 
     .tradeCoin__input:focus {
       outline: 0;
-      // outline-offset: 0;
     }
 }
 

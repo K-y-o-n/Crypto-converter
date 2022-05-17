@@ -1,0 +1,57 @@
+@import "../../cssVars/cssVars"; 
+
+%converter-font {
+  margin-top: 15px;
+  margin-left: 15px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.converter {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  background-color: $backgroundColor;
+  border: 2px solid white;
+  border-radius: 8px;
+}
+
+.coinInfo { 
+    display: flex;
+    flex-direction: column;
+    width: 475px; 
+
+    h2 {
+      font-size: 25px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      align-self: center;
+    }
+
+    h1 {
+      @extend %converter-font;
+      margin-bottom: 30px;
+    }
+}
+
+.coinInfo__exchange {
+
+    label {
+      @extend %converter-font;
+    }
+
+    input {
+      border: none;
+      margin-left: 15px;
+      width: 100px;
+      height: 30px;
+    }
+
+    input:focus {
+      outline: 0;
+    }
+}
+
+.coinInterval {
+  background-color: #f3f0f0;
+}
