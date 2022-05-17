@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import UserWallet from "./components/UserWallet/UserWallet";
 import CryptoConverter from './components/CryptoConverter/CryptoConverter';
+import Header from './components/Header/Header';
+import { Route, Routes } from "react-router-dom";
+import "./App.css"
 
 function App() {
   const [bitcoin, setBitcoin] = useState(null);
   const [bitcoinInterval, setBitcoinInterval] = useState(null)
   const [ethereum, setEthereum] = useState(null)
   const [ethereumIntevral, setEthereumInterval] = useState(null)
-
   useEffect(() => {
     fetchBitcoinCurrent();
     fetchEthereumCurrent();
@@ -92,13 +94,21 @@ function App() {
   }
 
   return (
-    <>
-      {/* <>
-        <CryptoConverter coin={bitcoin} coinInterval={bitcoinInterval} />
-        <CryptoConverter coin={ethereum} coinInterval={ethereumIntevral} />
-      </> */}
-      <UserWallet BtcExchangeRate={bitcoin} EthExchangeRate={ethereum} />
-    </>
+    <div className='container'>
+      <Header />
+      <Routes>
+        <Route path="/" element={
+          <>
+            <CryptoConverter coin={bitcoin} coinInterval={bitcoinInterval} />
+            <CryptoConverter coin={ethereum} coinInterval={ethereumIntevral} />
+          </>
+        }>
+        </Route>
+
+        <Route path='wallet' element={<UserWallet BtcExchangeRate={bitcoin} EthExchangeRate={ethereum} />}>
+        </Route>
+      </Routes>
+    </div>
   );
 }
 

@@ -1,0 +1,104 @@
+%h2 {
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  align-self: center;
+}
+
+%p {
+  margin-left: 15px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+%button {
+  margin-left: 30px;
+  margin-bottom: 15px;
+}
+
+.wallet {
+  padding: 20px;
+  display: flex;  
+}
+
+.wallet__coins {
+  margin-right: 250px;
+
+    h2 {
+      @extend %h2;
+    }
+
+    p {
+      margin-left: 15px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    p:not(:last-of-type){
+      margin-bottom: 15px;
+    }
+
+    p:last-of-type {
+      margin-top: 50px;
+    }
+}
+
+.tradeCoin {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: #d4d2f3;
+  border: 1px solid white;
+  border-radius: 8px;
+
+    h2 {
+      @extend %h2;
+    }
+
+    p {
+      @extend %p;
+      margin-bottom: 15px;
+    }
+
+    button {
+      @extend %button;
+    }
+
+    label {
+      @extend %p;
+      margin-bottom: 15px;
+    }
+
+    .tradeCoin__submit {
+      margin-left: 15px;
+      width: fit-content;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: 5px;
+      background-color:#11835b;
+      padding: 12px 30px;
+      margin-bottom: 0px;
+    }
+
+    .tradeCoin__totalPrice {
+      font-size: 18px;
+    }
+}
+
+.tradeCoin__label {
+
+    .tradeCoin__input{
+      border: none;
+      margin-left: 15px;
+      width: 100px;
+      height: 30px;
+    }
+
+    .tradeCoin__input:focus {
+      outline: 0;
+      // outline-offset: 0;
+    }
+}
+

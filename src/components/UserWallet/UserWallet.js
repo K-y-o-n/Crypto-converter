@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import BitcoinImg from "../../Images/bitcoin_logo.svg"
 import EthereumImg from "../../Images/ethereum_logo.svg"
 import { PieChart, Pie, Cell, Legend } from 'recharts';
+import "./UserWallet.css"
 
 const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
-  const [userBtc, setUserBtc] = useState(0)
-  const [userEth, setUserEth] = useState(0)
+  const [userBtc, setUserBtc] = useState(1)
+  const [userEth, setUserEth] = useState(3.24)
   const [coinСhoice, setCoinСhoice] = useState("Bitcoin")
   const [coinToBuy, setCoinToBuy] = useState(1)
   const [coinСhoiceToSell, setCoinСhoiceToSell] = useState("Bitcoin")
@@ -36,11 +37,8 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
 
   function getCoinRatio() {
     const btc = userBtc * BtcExchangeRate?.toUSD;
-    console.log(btc, "btc")
     const eth = userEth * EthExchangeRate?.toUSD;
-    console.log(eth, "eth")
     const percent = (btc + eth) * 0.01;
-    console.log(percent, "percent")
     return [{
       name: "BTC",
       value: Math.round(btc / percent)
@@ -54,22 +52,24 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
 
   return (
     <>
-      <div>
-        <h2>Мой кошелек</h2>
-        <p>Bitcoin (BTC): {userBtc}</p>
-        <p>Ethereum (ETH): {userEth}</p>
-        <p>Общая стоимость: {((userBtc * BtcExchangeRate?.toUSD) + (userEth * EthExchangeRate?.toUSD)).toFixed(2)} USD</p>
-      </div>
-      <div>
-        <PieChart width={500} height={250}>
-          <Pie data={graphData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" label  >
-            <Cell key={graphData[0]} fill="orange" />
-          </Pie>
-          <Legend />
-        </PieChart>
+      <div className='wallet'>
+        <div className='wallet__coins'>
+          <h2>Мой кошелек</h2>
+          <p>Bitcoin (BTC): {userBtc}</p>
+          <p>Ethereum (ETH): {userEth}</p>
+          <p>Общая стоимость: {((userBtc * BtcExchangeRate?.toUSD) + (userEth * EthExchangeRate?.toUSD)).toFixed(2)} USD</p>
+        </div>
+        <div className='wallet__ratio'>
+          <PieChart width={200} height={180}>
+            <Pie data={graphData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#8884d8" label  >
+              <Cell key={graphData[0]} fill="orange" />
+            </Pie>
+            <Legend />
+          </PieChart>
+        </div>
       </div>
 
-      <div>
+      <div className='tradeCoin'>
         <h2>Купить криптовалюту</h2>
         <div>
           <p>Выберите криптовалюту: {coinСhoice}</p>
@@ -80,15 +80,15 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
             <img name="Ethereum" alt="Ethereum" src={EthereumImg} width="100px" height="50px"></img>
           </button>
         </div>
-        <label>
+        <label className='tradeCoin__label'>
           Количество
-          <input type="number" min="1" value={coinToBuy} onChange={e => setCoinToBuy(+(e.target.value))} ></input><span> = {totalPrice.toFixed(2)} USD</span>
+          <input className='tradeCoin__input' type="number" min="1" value={coinToBuy} onChange={e => setCoinToBuy(+(e.target.value))} ></input><span className='tradeCoin__totalPrice'> = {totalPrice.toFixed(2)} USD</span>
         </label>
-        <button onClick={submitBuyCoin}>Купить</button>
+        <button className='tradeCoin__submit' onClick={submitBuyCoin}>Купить</button>
       </div>
 
-      <div>
-        <h2>Продать криптовалюту</h2>
+      <div className='tradeCoin'>
+        <h2 >Продать криптовалюту</h2>
         <div>
           <p>Выберите криптовалюту: {coinСhoiceToSell}</p>
           <button onClick={(e) => setCoinСhoiceToSell(e.target.name)}>
@@ -98,11 +98,11 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
             <img name="Ethereum" alt="Ethereum" src={EthereumImg} width="100px" height="50px"></img>
           </button>
         </div>
-        <label>
+        <label className='tradeCoin__label'>
           Количество
-          <input type="number" min="1" value={coinToSell} onChange={e => setCoinToSell(+(e.target.value))} ></input><span> = {totalSellPrice.toFixed(2)} USD</span>
+          <input className='tradeCoin__input' type="number" min="1" value={coinToSell} onChange={e => setCoinToSell(+(e.target.value))} ></input><span className='tradeCoin__totalPrice'> = {totalSellPrice.toFixed(2)} USD</span>
         </label>
-        <button onClick={submitSellCoin}>Продать</button>
+        <button className='tradeCoin__submit' onClick={submitSellCoin}>Продать</button>
       </div>
     </>
   );
