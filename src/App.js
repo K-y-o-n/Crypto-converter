@@ -93,10 +93,10 @@ function App() {
 
   return (
     <>
-      <>
+      {/* <>
         <CryptoConverter coin={bitcoin} coinInterval={bitcoinInterval} />
         <CryptoConverter coin={ethereum} coinInterval={ethereumIntevral} />
-      </>
+      </> */}
       <UserWallet BtcExchangeRate={bitcoin} EthExchangeRate={ethereum} />
     </>
   );

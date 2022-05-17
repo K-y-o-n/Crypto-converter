@@ -8,14 +8,30 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
   const [userEth, setUserEth] = useState(0)
   const [coinСhoice, setCoinСhoice] = useState("Bitcoin")
   const [coinToBuy, setCoinToBuy] = useState(1)
+  const [coinСhoiceToSell, setCoinСhoiceToSell] = useState("Bitcoin")
+  const [coinToSell, setCoinToSell] = useState(1)
   const totalPrice = coinСhoice === BtcExchangeRate?.name ? coinToBuy * BtcExchangeRate?.toUSD : coinToBuy * EthExchangeRate?.toUSD
+  const totalSellPrice = coinСhoiceToSell === BtcExchangeRate?.name ? coinToSell * BtcExchangeRate?.toUSD : coinToSell * EthExchangeRate?.toUSD
 
   function submitBuyCoin() {
     if (coinСhoice === "Bitcoin") {
       setUserBtc(userBtc + coinToBuy)
     } else if (coinСhoice === "Ethereum") {
       setUserEth(userEth + coinToBuy)
-    } else alert("Не выбрана криптовалюта")
+    }
+  }
+
+  function submitSellCoin() {
+    if (coinСhoiceToSell === "Bitcoin") {
+      if (userBtc >= coinToSell) {
+        setUserBtc(userBtc - coinToSell)
+      } else alert("Недостаточно криптовалюты для продажи")
+    }
+    if (coinСhoiceToSell === "Ethereum") {
+      if (userEth >= coinToSell) {
+        setUserEth(userEth - coinToSell)
+      } else alert("Недостаточно криптовалюты для продажи")
+    }
   }
 
   function getCoinRatio() {
@@ -34,9 +50,8 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
     }]
   }
 
-
   const graphData = getCoinRatio()
-  console.log(graphData)
+
   return (
     <>
       <div>
@@ -53,15 +68,16 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
           <Legend />
         </PieChart>
       </div>
+
       <div>
         <h2>Купить криптовалюту</h2>
         <div>
           <p>Выберите криптовалюту: {coinСhoice}</p>
           <button onClick={(e) => setCoinСhoice(e.target.name)}>
-            <img name="Bitcoin" src={BitcoinImg} width="100px" height="50px"></img>
+            <img name="Bitcoin" alt="Bitcoin" src={BitcoinImg} width="100px" height="50px"></img>
           </button>
           <button onClick={(e) => setCoinСhoice(e.target.name)}>
-            <img name="Ethereum" src={EthereumImg} width="100px" height="50px"></img>
+            <img name="Ethereum" alt="Ethereum" src={EthereumImg} width="100px" height="50px"></img>
           </button>
         </div>
         <label>
@@ -69,6 +85,24 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
           <input type="number" min="1" value={coinToBuy} onChange={e => setCoinToBuy(+(e.target.value))} ></input><span> = {totalPrice.toFixed(2)} USD</span>
         </label>
         <button onClick={submitBuyCoin}>Купить</button>
+      </div>
+
+      <div>
+        <h2>Продать криптовалюту</h2>
+        <div>
+          <p>Выберите криптовалюту: {coinСhoiceToSell}</p>
+          <button onClick={(e) => setCoinСhoiceToSell(e.target.name)}>
+            <img name="Bitcoin" alt="Bitcoin" src={BitcoinImg} width="100px" height="50px"></img>
+          </button>
+          <button onClick={(e) => setCoinСhoiceToSell(e.target.name)}>
+            <img name="Ethereum" alt="Ethereum" src={EthereumImg} width="100px" height="50px"></img>
+          </button>
+        </div>
+        <label>
+          Количество
+          <input type="number" min="1" value={coinToSell} onChange={e => setCoinToSell(+(e.target.value))} ></input><span> = {totalSellPrice.toFixed(2)} USD</span>
+        </label>
+        <button onClick={submitSellCoin}>Продать</button>
       </div>
     </>
   );
