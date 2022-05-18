@@ -3,8 +3,12 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
 import "./CryptoConverter.css";
 
 const CryptoConverter = ({ coin, coinInterval }) => {
+  //coin - инфо о криптовалюте: название, сокращение, курс к $ и другой валюте
+  // coinInterval - история стоимости криптовалюты за 14 дней
+
   const [userAmount, setUserAmount] = useState(null);
 
+  // ф. переводит дату из Unix Timestamp в нормальную, для добавления на график
   function getDate(prop) {
     const fullDate = new Date(prop * 1)
     const day = fullDate.getDate()
@@ -12,6 +16,7 @@ const CryptoConverter = ({ coin, coinInterval }) => {
     return `${day}/${month}`
   }
 
+  // создание данных для графика
   const graphData = coinInterval?.map(el => {
     return {
       date: getDate(el[0]), coin: el[1].toFixed(2)

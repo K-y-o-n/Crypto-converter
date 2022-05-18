@@ -11,6 +11,7 @@ const Header = () => {
         <img src={BlockchainImg} alt="BlockchainImg" width="60px" height="60px"></img>
         <h1>Конвертер криптовалют</h1>
       </div>
+
       <nav className="header__nav">
         <Link to="/">Конвертер</Link>
         <Link to="wallet">В кошелек</Link>

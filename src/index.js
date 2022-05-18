@@ -5,8 +5,11 @@ import App from './App';
 import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+const basename = document.querySelector('base')?.getAttribute('href') ?? '/'
+
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename={basename}>
     <App />
   </BrowserRouter>
 );

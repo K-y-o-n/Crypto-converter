@@ -5,6 +5,8 @@ import { PieChart, Pie, Cell, Legend } from 'recharts';
 import "./UserWallet.css"
 
 const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
+  // props - инфо о криптовалюте: название, сокращение, курс к $ и другой валюте
+
   const [userBtc, setUserBtc] = useState(1)
   const [userEth, setUserEth] = useState(3.24)
   const [coinСhoice, setCoinСhoice] = useState("Bitcoin")
@@ -14,6 +16,7 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
   const totalPrice = coinСhoice === BtcExchangeRate?.name ? coinToBuy * BtcExchangeRate?.toUSD : coinToBuy * EthExchangeRate?.toUSD
   const totalSellPrice = coinСhoiceToSell === BtcExchangeRate?.name ? coinToSell * BtcExchangeRate?.toUSD : coinToSell * EthExchangeRate?.toUSD
 
+  // обработчик для кнопки "Купить"
   function submitBuyCoin() {
     if (coinСhoice === "Bitcoin") {
       setUserBtc(userBtc + coinToBuy)
@@ -24,6 +27,7 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
     }
   }
 
+  // обработчик для кнопки "Продать"
   function submitSellCoin() {
     if (coinСhoiceToSell === "Bitcoin") {
       if (userBtc >= coinToSell) {
@@ -39,6 +43,7 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
     }
   }
 
+  // ф. расчитывает соотношение криптовалют в кошельке
   function getCoinRatio() {
     const btc = userBtc * BtcExchangeRate?.toUSD;
     const eth = userEth * EthExchangeRate?.toUSD;
@@ -52,6 +57,7 @@ const UserWallet = ({ BtcExchangeRate, EthExchangeRate }) => {
     }]
   }
 
+  // данные для графика
   const graphData = getCoinRatio()
 
   return (
