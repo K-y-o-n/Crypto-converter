@@ -53,6 +53,11 @@
   outline: 0;
 }
 
+.coinInfo__exchange span {
+  font-size: 16px;
+  font-weight: 500;
+}
+
 .coinInterval {
   background-color: #f3f0f0;
 }
